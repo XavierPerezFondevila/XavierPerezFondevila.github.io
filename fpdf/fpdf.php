@@ -1027,7 +1027,6 @@ function Output($dest='', $name='', $isUTF8=false)
 		default:
 			$this->Error('Incorrect output destination: '.$dest);
 	}
-	return '';
 }
 
 /*******************************************************************************

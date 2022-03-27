@@ -1,7 +1,10 @@
+
 $(document).ready(setPage());
 
 
 function setPage(){
+
+
 
   $('.add-item-wrapper button').click(function(){
     let columnWrapper = $(this).parents('.accordion-body').find('.column-wrapper');
@@ -21,27 +24,39 @@ function setPage(){
     }
   });
 
-//   $('#generate-pdf').click(function(){
+  $('#generate-pdf').click(function(){
+    var doc = new jspdf.jsPDF()
+    doc.setFont("helvetica");
+    doc.setFontSize(12);
 
-//     let table = $('.table-wrapper');
+    // Simple data example
+    var head = [['Nombre', 'Precio']]
+    var fruitsBody = []
+  
+    
+    $.each($('.fruits-wrapper .row-wrapper'),function(){
+      fruitsBody.push([$(this).find('.fruit-info-wrapper input').val(), $(this).find('.fruit-price-wrapper input').val() + '€'])
+    })
+    
+    doc.text('Nombre: ' + $('#user-name').val(), 10, 10);
+    doc.text('Dni: ' + $('#user-nif').val(), 10, 16);
+    doc.text('Teléfono: ' + $('#user-phone').val(), 10, 22);
 
-//     console.info($(table).html())
-
-//     $.ajax({
-//       url: "./pdfOutput.php",
-//       data: {'data': $(table).html()},
-//       type: "POST",
-//     })
-//     .done(function( data ) {
-//       let blob = new Blob([data], {
-//         type: 'application/pdf'
-//       });
-//       var link=document.createElement('a');
-//       link.href=window.URL.createObjectURL(blob);
-//       link.download="<FILENAME_TO_SAVE_WITH_EXTENSION>";
-//       link.click();
-//     });
-//   });
+    doc.text('Frutas', 15, 30);
+    
+    doc.autoTable({ head: head, body: fruitsBody, startY: 35 })
+    
+    var vegetablesBody = []
+    
+    $.each($('.vegetable-wrapper .row-wrapper'),function(){
+      vegetablesBody.push([$(this).find('.vegetable-info-wrapper input').val(), $(this).find('.vegetable-price-wrapper input').val() + '€'])
+    })
+    doc.text('Verduras', 15 , (doc.lastAutoTable.finalY + 20));
+    
+    doc.autoTable({ head: head, body: vegetablesBody, startY: (doc.lastAutoTable.finalY + 25) })
+    
+    doc.save('delivery-note.pdf');
+  });
 
 }
 
