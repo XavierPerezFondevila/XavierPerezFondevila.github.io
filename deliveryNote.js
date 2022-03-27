@@ -44,7 +44,11 @@ function setPage(){
 
     doc.text('Frutas', 15, 30);
     
-    doc.autoTable({ head: head, body: fruitsBody, startY: 35 })
+    doc.autoTable({ head: head, body: fruitsBody, startY: 35 ,columnStyles: {
+      0: {cellWidth: 100},
+      1: {cellWidth: 50},
+      // etc
+    } })
     
     var vegetablesBody = []
     
@@ -53,7 +57,11 @@ function setPage(){
     })
     doc.text('Verduras', 15 , (doc.lastAutoTable.finalY + 20));
     
-    doc.autoTable({ head: head, body: vegetablesBody, startY: (doc.lastAutoTable.finalY + 25) })
+    doc.autoTable({ head: head, body: vegetablesBody, startY: (doc.lastAutoTable.finalY + 25), columnStyles: {
+      0: {cellWidth: 100},
+      1: {cellWidth: 50},
+      // etc
+    } })
     
     doc.save('delivery-note.pdf');
   });
